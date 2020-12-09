@@ -22,7 +22,13 @@ class Manager < Employee
         super(*super_args)
     end 
     def bonus(multiplier)
-        employees_bonuses = employees.map { |employee| employee.bonus(multiplier) }  # Makes an array of all sub-employees bonuses 
+        employees_bonuses = employees.map do |employee|   # Makes an array of all sub-employees bonuses # is_a?
+            if employee.is_a?(Manager)
+                employee.bonus(multiplier) + (employee.salary * multiplier)
+            else
+                employee.bonus(multiplier)
+            end
+        end
         return employees_bonuses.sum
     end 
     def add_employee(employee)
@@ -40,4 +46,4 @@ if __FILE__ == $PROGRAM_NAME
     p ned.bonus(5)
     p darren.bonus(4)
     p david.bonus(3)
-end
+end 
